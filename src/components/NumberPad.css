@@ -1,0 +1,41 @@
+.number-pad {
+    margin:1em 0
+}
+
+
+.grid-container {
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr);
+    width:50vw;
+    color:navy
+  }
+  
+  .grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    font-size: 30px;
+    transition: scale 400ms ease-in-out;
+  }
+
+  
+  .grid-item.activeNum {
+    color:blue;
+    text-shadow: 0 0 3px blue;
+  }
+  .grid-item #grid-item-num{    
+    transform: scale(1);
+    margin:0;
+    padding:0
+  }
+
+  .grid-item.activeNum #grid-item-num{
+    transform: scale(1.2);    
+  }
+
+  @keyframes linger {
+    0%   {scale:0.9}
+    25%  {scale:1}
+    50%  {scale:1.1}
+    100% {scale:1}
+  }
