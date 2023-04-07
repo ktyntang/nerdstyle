@@ -62,34 +62,27 @@ function App() {
 		{ name: "stepPattern", options: ["circle", "two"] },
 	];
 
-	const [oneEight, setOneEight] = useState(5000); //milliseconds. defaults? fast 10, med 20, slow 40)
+	const [oneEight, setOneEight] = useState(5); //seconds. defaults? fast 10, med 20, slow 40)
 	const [practiceEights, setPracticeEights] = useState(2); // eights per prompt. change prompt aft _ eights.
 	const [exerciseEights, setExerciseEights] = useState(16); // eights per exercise. add new exercise aft _ eights. If 0,  enable all?
 	const [eightsElapsed, setEightsElapsed] = useState(0);
-
 	// const [category, setCategory] = useState("FOOTWORK");
 	// const [sequence, setSequence] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
 	// const [activeNumIndex, setActiveNumIndex] = useState(0);
 	const [isPlaying, setIsPlaying] = useState(false);
 
-	// // console.log(oneEight, practiceEights, exerciseEights);
-
 	// After 2 eights, exercise change prompt.
 	// After 16 eights, add new exercise.
-	// const eightsElapsed = useRef(0);
+	// let eightsElapsed = useRef(0);
 	let promptTimer = useRef(null);
 	let numHighlightTimer = useRef(null);
 	// let activeNumRef = useRef(null);
-	// const prevSeqRef = useRef(null);
+	const prevSeqRef = useRef(null);
 
 	// useEffect(() => {
 	// 	prevSeqRef.current = sequence;
 	// 	console.log(prevSeqRef.current);
 	// }, [sequence]); // when the value of sequence changes, assign the previous value to ref.
-
-	// const regenerateSequence = useCallback(() => {
-	// 	setSequence(randNumberSeqInRange(1, 9, sequence.length));
-	// }, [sequence]);
 
 	// useEffect(() => {
 	// 	if (activeNumRef.current) {
@@ -97,7 +90,23 @@ function App() {
 	// 	}
 	// }, [activeNumRef]);
 
-	// //regenerate seq at set freq. intervals and  set active num ref every freq./seqLength
+	console.log(oneEight);
+	// If playing, add 1 to eightsElapsed when duration of 1 eight passes.
+	useEffect(() => {
+		if (isPlaying && oneEight) {
+			promptTimer.current = setInterval(() => {
+				setEightsElapsed(eightsElapsed + 1);
+			}, oneEight * 1000);
+		} else {
+			clearInterval(promptTimer.current);
+			promptTimer.current = null;
+		}
+		return () => {
+			clearInterval(promptTimer.current);
+			promptTimer.current = null;
+		};
+	}, [oneEight, practiceEights, isPlaying, eightsElapsed]);
+
 	// useEffect(() => {
 	// 	if (isPlaying && sequence.length && oneEight) {
 	// 		promptTimer.current = setInterval(() => {
@@ -145,6 +154,8 @@ function App() {
 		}
 	};
 
+	console.log(eightsElapsed);
+
 	return (
 		<div className="App">
 			<header>
@@ -167,8 +178,8 @@ function App() {
  */}
 			<div className="page">
 				<section style={{ margin: "2em 0" }}>
-					<button onClick={handlePlay}>Play</button>
-					<button onClick={handlePause}>Pause</button>
+					<button onClick={() => handlePlay()}>Play</button>
+					<button onClick={() => handlePause()}>Pause</button>
 				</section>
 				<UserInputs
 					oneEight={oneEight}

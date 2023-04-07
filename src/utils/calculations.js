@@ -100,3 +100,18 @@ export const getRegeneratedSequence = (regenType) => {
 			return null;
 	}
 };
+
+/**
+ * Check if array of arrays are equivalent. Do not use if arr has obj.
+ *
+ * @param   a  Array
+ * @param   b  Array
+ * @returns Bool
+ */
+export const arraysAreEqual = (a, b) => {
+	return a && b
+		? a.length === b.length &&
+				a.every((item) => b.includes(item)) &&
+				b.every((item) => a.includes(item))
+		: false;
+};

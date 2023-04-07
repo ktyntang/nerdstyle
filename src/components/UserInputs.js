@@ -14,12 +14,10 @@ export const UserInputs = ({
 				<input
 					type="number"
 					id="oneEight-input"
-					value={oneEight ? oneEight / 1000 : ""}
+					value={oneEight ? oneEight : ""}
 					onChange={(e) =>
 						handleUserChange(
-							e.target.value
-								? parseInt(e.target.value * 1000)
-								: 0,
+							e.target.value ? parseInt(e.target.value) : 0,
 							"oneEight"
 						)
 					}
@@ -27,34 +25,17 @@ export const UserInputs = ({
 			</section>
 			<section
 				className="fr input-container"
-				id="practice-input-container"
+				id="practice-input-container-master"
 			>
-				<label>Eights per prompt</label>
+				<label>Eights per exercise</label>
 				<input
 					type="number"
-					id="practice-eights-input"
+					id="practice-eights-input-master"
 					value={practiceEights ? practiceEights : ""}
 					onChange={(e) =>
 						handleUserChange(
 							e.target.value ? parseInt(e.target.value) : 0,
 							"practiceEights"
-						)
-					}
-				></input>
-			</section>
-			<section
-				className="fr input-container"
-				id="exercise-input-container"
-			>
-				<label>Eights per exercise</label>
-				<input
-					type="number"
-					id="exercise-eights-input"
-					value={exerciseEights ? exerciseEights : ""}
-					onChange={(e) =>
-						handleUserChange(
-							e.target.value ? parseInt(e.target.value) : 0,
-							"exerciseEights"
 						)
 					}
 				></input>
