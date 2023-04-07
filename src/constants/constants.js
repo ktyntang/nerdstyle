@@ -1,0 +1,4 @@
+export const SHUFFLE = "SHUFFLE";
+export const SHUFFLE_NO_CONSECUTIVE = "SHUFFLE_NO_CONSECUTIVE";
+export const REPLACE_SOME = "REPLACE_SOME";
+export const PICK_ONE = "PICK_ONE";
