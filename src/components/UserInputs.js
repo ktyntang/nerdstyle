@@ -5,7 +5,7 @@ export const UserInputs = ({
 	handleUserChange,
 }) => {
 	return (
-		<div className="page user-inputs">
+		<div className="user-inputs">
 			<section
 				className="fr input-container"
 				id="one-eight-input-container"

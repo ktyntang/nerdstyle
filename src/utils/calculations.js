@@ -111,7 +111,7 @@ export const getRegeneratedSequence = (regenType) => {
 export const arraysAreEqual = (a, b) => {
 	return a && b
 		? a.length === b.length &&
-				a.every((item) => b.includes(item)) &&
-				b.every((item) => a.includes(item))
+				new Array(a).every((item) => b.includes(item)) &&
+				new Array(b).every((item) => a.includes(item))
 		: false;
 };

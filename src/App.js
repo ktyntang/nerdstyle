@@ -1,137 +1,54 @@
 import "./App.css";
+import "./Main.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { NumberPad } from "./components/NumberPad";
 import { UserInputs } from "./components/UserInputs";
 import { Card } from "./components/Card";
-import { PICK_ONE, REPLACE_SOME } from "./constants/constants";
 
-// Select the category -> select base exercise -> add/reorder options default is all:
-
-// BOUNCE: up/down/front/back/wave
-// RHYTHM : diff prompts for when to do the bounce emphasis.  e.g. "12_4" "__34"
-// ISOLATIONS: either prompt 1 body part, or prompt is array of numbers (number each body part and explore iso pathway)
-// LEVELS: low, mid, high
-// ENERGY: low, mid, high
-// TEXTURE: hard, soft, fluid, fast-slow, (+ sub categories)
-// DIRECTIONS: "...."
-// CONCEPTS: "..."
-
-// Logic: SetInterval (Rand number generator)
-
-// props = [{Exercise,Prompts[] }],
-// <ExerciseCard exercise={} prompts={[]} eightCounter promptFreq=_ >
-// isDisabled, isLocked, currentPrompt
-
-// useEffect=when eightCounter = modulo PromptFreq, changePrompt()
-// useEffect=when eightCounter, toggleDisable()
-// onClick=toggleLock()
-
-// ?? Separate exercise controller?
-// ExerciseOrder=[a,b,c,d]
+import { ProgressBar } from "./components/ProgressBar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faCirclePause,
+	faCirclePlay,
+	faPause,
+	faPlay,
+	faPlayCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { Intro } from "./components/Intro";
+import { exercises } from "./utils/exercises";
 
 function App() {
-	let exercises = [
-		{
-			category: "Rhythm",
-			name: "RandFour",
-			options: [1, 2, 3, 4],
-			seqType: REPLACE_SOME,
-			seqLength: "_",
-		},
-		{
-			category: "Bounce",
-			name: "Bounce",
-			options: ["up", "down", "front", "back"],
-			seqType: PICK_ONE,
-			seqLength: 1,
-		},
-		{
-			category: "Bounce",
-			name: "doubleBounce",
-			options: ["double", "double", "double", "double"],
-			seqType: REPLACE_SOME,
-			seqLength: " ",
-		},
-		{
-			category: "Texture",
-			name: "Overall Texture",
-			options: ["soft", "hard", "fluid", "staccato"],
-			seqType: REPLACE_SOME,
-			seqLength: " ",
-		},
-		{ name: "stepPattern", options: ["circle", "two"] },
-	];
-
 	const [oneEight, setOneEight] = useState(5); //seconds. defaults? fast 10, med 20, slow 40)
+	const [count, setCount] = useState(1);
 	const [practiceEights, setPracticeEights] = useState(2); // eights per prompt. change prompt aft _ eights.
 	const [exerciseEights, setExerciseEights] = useState(16); // eights per exercise. add new exercise aft _ eights. If 0,  enable all?
 	const [eightsElapsed, setEightsElapsed] = useState(0);
-	// const [category, setCategory] = useState("FOOTWORK");
-	// const [sequence, setSequence] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
-	// const [activeNumIndex, setActiveNumIndex] = useState(0);
 	const [isPlaying, setIsPlaying] = useState(false);
 
 	// After 2 eights, exercise change prompt.
 	// After 16 eights, add new exercise.
-	// let eightsElapsed = useRef(0);
 	let promptTimer = useRef(null);
-	let numHighlightTimer = useRef(null);
-	// let activeNumRef = useRef(null);
-	const prevSeqRef = useRef(null);
+	let progressTimer = useRef(null);
 
-	// useEffect(() => {
-	// 	prevSeqRef.current = sequence;
-	// 	console.log(prevSeqRef.current);
-	// }, [sequence]); // when the value of sequence changes, assign the previous value to ref.
-
-	// useEffect(() => {
-	// 	if (activeNumRef.current) {
-	// 		activeNumRef.current.className = "grid-item activeNum";
-	// 	}
-	// }, [activeNumRef]);
-
-	console.log(oneEight);
-	// If playing, add 1 to eightsElapsed when duration of 1 eight passes.
 	useEffect(() => {
 		if (isPlaying && oneEight) {
-			promptTimer.current = setInterval(() => {
-				setEightsElapsed(eightsElapsed + 1);
-			}, oneEight * 1000);
+			progressTimer.current = setInterval(() => {
+				if (count === 8) {
+					setEightsElapsed(eightsElapsed + 1);
+					setCount(1);
+				} else {
+					setCount(count + 1);
+				}
+			}, (oneEight * 1000) / 8);
 		} else {
-			clearInterval(promptTimer.current);
-			promptTimer.current = null;
+			clearInterval(progressTimer.current);
+			progressTimer.current = null;
 		}
 		return () => {
-			clearInterval(promptTimer.current);
-			promptTimer.current = null;
+			clearInterval(progressTimer.current);
+			progressTimer.current = null;
 		};
-	}, [oneEight, practiceEights, isPlaying, eightsElapsed]);
-
-	// useEffect(() => {
-	// 	if (isPlaying && sequence.length && oneEight) {
-	// 		promptTimer.current = setInterval(() => {
-	// 			regenerateSequence();
-	// 			setEightsElapsed((eightsElapsed) => eightsElapsed + 1);
-	// 		}, oneEight * (practiceEights ? practiceEights : 1));
-
-	// 		let i = 0;
-	// 		numHighlightTimer.current = setInterval(() => {
-	// 			setActiveNumIndex(i);
-	// 			i === sequence.length - 1 ? (i = 0) : (i = i + 1);
-	// 		}, oneEight / sequence.length);
-	// 	} else {
-	// 		clearInterval(promptTimer.current);
-	// 		promptTimer.current = null;
-	// 		clearInterval(numHighlightTimer.current);
-	// 		numHighlightTimer.current = null;
-	// 	}
-	// 	return () => {
-	// 		clearInterval(promptTimer.current);
-	// 		promptTimer.current = null;
-	// 		clearInterval(numHighlightTimer.current);
-	// 		numHighlightTimer.current = null;
-	// 	};
-	// }, [regenerateSequence, sequence, oneEight, practiceEights, isPlaying]);
+	}, [oneEight, practiceEights, isPlaying, eightsElapsed, count]);
 
 	const handlePlay = () => {
 		setIsPlaying(true);
@@ -154,40 +71,82 @@ function App() {
 		}
 	};
 
-	console.log(eightsElapsed);
-
 	return (
-		<div className="App">
+		<div className="App ">
 			<header>
-				<h1>Freestyle Prompter</h1>
+				<h1>lil drills</h1>
 			</header>
-			<div className="page fc">
-				<Card
-					eightsElapsed={eightsElapsed}
-					exerciseObj={exercises[0]}
-				/>
+			<div className="fr">
+				<div className="page-container">
+					<div className="page fc">
+						<Intro />
+					</div>
+				</div>
+				<div className="page-container">
+					<div className="main page">
+						<section className="progress-container">
+							<ProgressBar
+								progressBg={"whitesmoke"}
+								rangeBg={"grey"}
+								progress={count}
+								height={"1rem"}
+							/>
+						</section>
+
+						<section className="play-controls">
+							<button
+								onClick={() =>
+									isPlaying ? handlePause() : handlePlay()
+								}
+							>
+								<FontAwesomeIcon
+									icon={isPlaying ? faPause : faPlay}
+								/>
+							</button>
+						</section>
+						<div className="card-container fc">
+							<Card
+								eightsElapsed={eightsElapsed}
+								count={count}
+								exerciseObj={exercises[0]}
+							/>
+							<Card
+								eightsElapsed={eightsElapsed}
+								count={count}
+								exerciseObj={exercises[1]}
+							/>
+							<Card
+								eightsElapsed={eightsElapsed}
+								count={count}
+								exerciseObj={exercises[2]}
+							/>
+						</div>
+					</div>
+				</div>
+
+				<div className="page-container">
+					<div className="page fc">
+						<UserInputs
+							oneEight={oneEight}
+							practiceEights={practiceEights}
+							exerciseEights={exerciseEights}
+							handleUserChange={handleUserChange}
+						/>
+					</div>
+				</div>
 			</div>
 			{/* <div className="page fc">
 				<h2 style={{ margin: 0, padding: 0 }}>{`${category}`}</h2>
 				<h3 style={{ margin: 0, padding: 0 }}>Number Pad</h3>
 				<NumberPad
+				eightsElapsed={eightsElapsed}
+						count={count}
+						exerciseObj={}
 					sequence={prevSeqRef.current ?? sequence}
 					activeNumIndex={activeNumIndex}
 				/>
 			</div>
  */}
-			<div className="page">
-				<section style={{ margin: "2em 0" }}>
-					<button onClick={() => handlePlay()}>Play</button>
-					<button onClick={() => handlePause()}>Pause</button>
-				</section>
-				<UserInputs
-					oneEight={oneEight}
-					practiceEights={practiceEights}
-					exerciseEights={exerciseEights}
-					handleUserChange={handleUserChange}
-				/>
-			</div>
 		</div>
 	);
 }
