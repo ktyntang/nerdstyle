@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faCirclePause,
 	faCirclePlay,
+	faGear,
 	faPause,
 	faPlay,
 	faPlayCircle,
@@ -93,18 +94,22 @@ function App() {
 							/>
 						</section>
 
-						<section className="play-controls">
+						<section
+							className="play-controls fc"
+							style={{ margin: "1.5em 0" }}
+						>
 							<button
 								onClick={() =>
 									isPlaying ? handlePause() : handlePlay()
 								}
 							>
 								<FontAwesomeIcon
+									className="icon large clickable"
 									icon={isPlaying ? faPause : faPlay}
 								/>
 							</button>
 						</section>
-						<div className="card-container fc">
+						<section className="card-container fc">
 							<Card
 								eightsElapsed={eightsElapsed}
 								count={count}
@@ -120,7 +125,14 @@ function App() {
 								count={count}
 								exerciseObj={exercises[2]}
 							/>
-						</div>
+						</section>
+						<section className="master-settings fr">
+							<FontAwesomeIcon
+								icon={faGear}
+								className="icon large clickable"
+								style={{ marginBottom: "1.5em" }}
+							/>
+						</section>
 					</div>
 				</div>
 

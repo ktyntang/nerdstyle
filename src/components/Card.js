@@ -109,9 +109,9 @@ export const Card = ({ eightsElapsed, count, exerciseObj }) => {
 	};
 
 	return (
-		<div className="card">
+		<div className="card fc">
 			<button
-				className="card-control-button"
+				className="card-control-button icon clickable"
 				onClick={() => toggleControls()}
 			>
 				<FontAwesomeIcon icon={faSliders} />

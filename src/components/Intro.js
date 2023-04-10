@@ -54,13 +54,15 @@ export const Intro = () => {
 	}, [category]);
 
 	return (
-		<div className="intro-container ">
-			<div className="intro fc">
-				<h2>WHAT DO YOU</h2>
-				<h2>WANT TO DRILL</h2>
-				<h2>TODAY? </h2>
-			</div>
+		<>
 			<h2 className="category-randomized">{`${text}`}</h2>
-		</div>
+			<div className="intro-container ">
+				<div className="intro fc">
+					<h2>WHAT DO YOU</h2>
+					<h2>WANT TO DRILL</h2>
+					<h2>TODAY? </h2>
+				</div>
+			</div>
+		</>
 	);
 };

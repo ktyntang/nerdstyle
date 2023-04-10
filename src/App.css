@@ -22,7 +22,6 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	font-size: 14px;
 	font-weight: 500;
 	font-family: "Montserrat", sans-serif;
 	color: white;
@@ -102,6 +101,21 @@ code {
 .page {
 	height: inherit;
 	width: inherit;
+}
+
+.large {
+	font-size: clamp(14px, 1.5rem + 0.5vw, 3rem);
+}
+
+.clickable {
+	transform: scale(1);
+	transition: scale 800ms ease-in-out;
+	cursor: pointer;
+	padding: 0.1em;
+}
+
+.clickable:hover {
+	transform: scale(1.1);
 }
 
 .gradient-display {
