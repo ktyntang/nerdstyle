@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/nerdstyle/static/css/main.40c56dd8.css",
-    "main.js": "/nerdstyle/static/js/main.c67ba51f.js",
+    "main.css": "/nerdstyle/static/css/main.c6265e37.css",
+    "main.js": "/nerdstyle/static/js/main.621f3d27.js",
     "static/js/787.5f4f4a9d.chunk.js": "/nerdstyle/static/js/787.5f4f4a9d.chunk.js",
     "index.html": "/nerdstyle/index.html",
-    "main.40c56dd8.css.map": "/nerdstyle/static/css/main.40c56dd8.css.map",
-    "main.c67ba51f.js.map": "/nerdstyle/static/js/main.c67ba51f.js.map",
+    "main.c6265e37.css.map": "/nerdstyle/static/css/main.c6265e37.css.map",
+    "main.621f3d27.js.map": "/nerdstyle/static/js/main.621f3d27.js.map",
     "787.5f4f4a9d.chunk.js.map": "/nerdstyle/static/js/787.5f4f4a9d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.40c56dd8.css",
-    "static/js/main.c67ba51f.js"
+    "static/css/main.c6265e37.css",
+    "static/js/main.621f3d27.js"
   ]
 }
