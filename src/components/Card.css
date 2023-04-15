@@ -2,14 +2,13 @@
 	position: relative;
 	border: 1px solid purple;
 	width: 100%;
-	height: clamp(8rem, 20vh, 30vh);
+	height: clamp(8em, 20vh, 30vh);
 	padding: 5%;
 	margin-bottom: 5%;
 	/* padding is 5%, so width is 90% of 50vw */
 	/* From https://css.glass */
 	background: rgba(255, 255, 255, 0.2);
 	border-radius: 8px;
-	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(6px);
 	-webkit-backdrop-filter: blur(6px);
 	border: 1px solid rgba(255, 255, 255, 0.25);
@@ -19,16 +18,15 @@
 	position: absolute;
 	top: 0;
 	right: 0;
-	z-index: 1;
+	z-index: 1001;
 	margin: 0.5em;
 }
 
 .card-control {
-	position: absolute;
-	top: 0;
-	left: 0;
 	width: inherit;
-	z-index: 0;
+	height: inherit;
+	position: relative;
+	z-index: 1001;
 	transition: all 500ms ease-in-out;
 }
 
@@ -43,8 +41,58 @@
 	transform: scaleY(1);
 }
 
+.card-control .back-next-container {
+	justify-content: space-between;
+	width: inherit;
+	padding: 0 1em;
+	height: inherit;
+}
+
+.card-control .back-next-container button {
+	font-size: 1.2em;
+}
+
+.card-control .btn-container {
+	width: inherit;
+	justify-content: flex-end;
+	align-items: flex-start;
+	padding: 0.5em;
+	padding-right: 1.75em;
+}
+
+.card-control .refresh-btn {
+	width: fit-content;
+	margin-left: 0.5em;
+}
+
+.card-control .lock-btn {
+	width: fit-content;
+	margin-left: 0.5em;
+}
+
+.card-control .input-container {
+	width: inherit;
+	padding: 0 1em;
+	font-size: 0.9em;
+}
+/* ------------------------------------------------- */
+
 .seq-display {
-	font-size: clamp(36px, 2rem + 0.5vw, 3rem);
+	font-size: clamp(36px, 2rem + 0.5vw, 54px);
+}
+
+.info-display {
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 0.5em;
+
+	width: fit-content;
+}
+
+.info-display h5 {
+	margin: 0;
+	width: fit-content;
 }
 
 /* <div className="card">

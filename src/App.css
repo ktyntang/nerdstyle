@@ -23,11 +23,19 @@
 	align-items: center;
 	justify-content: center;
 	font-weight: 500;
+	font-size: clamp(1rem, 1vw, 3rem);
 	font-family: "Montserrat", sans-serif;
 	color: white;
 	background: var(--bg-color);
 	cursor: default;
 	overflow-x: scroll;
+	--BOUNCE: royalBlue;
+	--RHYTHM: springgreen;
+	--TEXTURE: cyan;
+	--ENERGY: orange;
+	--ISOLATIONS: hotpink;
+	--FOOTWORK: yellow;
+	--CONCEPTS: lightSteelBlue;
 }
 
 header {
@@ -47,15 +55,15 @@ header {
 }
 
 h1 {
-	font-size: 3rem;
+	font-size: 3em;
 	font-family: "Montserrat Subrayada", sans-serif;
 	font-style: italic;
 }
 h2 {
-	font-size: 2rem;
+	font-size: 2em;
 }
 h3 {
-	font-size: 1.5rem;
+	font-size: 1.5em;
 }
 
 h1,

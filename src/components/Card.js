@@ -1,37 +1,26 @@
+import { CardControl } from "./CardControl";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { arraysAreEqual, getRegeneratedSequence } from "../utils/calculations";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faAnglesLeft,
-	faAnglesRight,
-	faCaretLeft,
-	faCaretRight,
-	faLock,
-	faLockOpen,
-	faRefresh,
-	faSliders,
-} from "@fortawesome/free-solid-svg-icons";
+	getRegeneratedSequence,
+	lastNArraysIncludes,
+} from "../utils/calculations";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSliders } from "@fortawesome/free-solid-svg-icons";
 import "./Card.css";
-import { PICK_ONE } from "../constants/constants";
+import { useModal } from "./Modal";
 
-export const Card = ({ eightsElapsed, count, exerciseObj }) => {
+export const Card = ({ eightsElapsed, count, exerciseObj, masterEights }) => {
 	const { category, name, options, seqType, seqLength } = exerciseObj;
+	const { isShown, toggleModal } = useModal();
 
 	const [sequence, setSequence] = useState([]);
-	const [practiceEights, setPracticeEights] = useState(2);
+	const [practiceEights, setPracticeEights] = useState(masterEights);
 	const [isLocked, setIsLocked] = useState(false);
-	const [controlIsOpen, setControlIsOpen] = useState(false);
 
 	let backCounter = useRef(0);
 	let storedSequences = useRef([]);
 
 	// ---------- EFFECTS ---------------------------------------
-	useEffect(() => {
-		setSequence(
-			options.slice(0, seqLength > 0 ? seqLength : options.length)
-		);
-	}, [options, seqLength, seqType]);
-	console.log({ options, sequence, seqLength });
 
 	const storeSeq = useCallback(
 		(seq) => {
@@ -39,8 +28,6 @@ export const Card = ({ eightsElapsed, count, exerciseObj }) => {
 		},
 		[storedSequences]
 	);
-	console.log(storedSequences.current[storedSequences.current.length - 1]);
-
 	const regenerateSequence = useCallback(() => {
 		let result;
 		do {
@@ -49,14 +36,19 @@ export const Card = ({ eightsElapsed, count, exerciseObj }) => {
 			);
 		} while (
 			result &&
-			arraysAreEqual(
-				result,
-				storedSequences.current[storedSequences.current.length - 1]
-			)
+			lastNArraysIncludes(options.length, storedSequences.current, result)
 		);
 		setSequence(result);
 		storeSeq(result);
 	}, [options, seqType, seqLength, storeSeq]);
+
+	// initial sequence
+	useEffect(() => {
+		setSequence(
+			options.slice(0, seqLength > 0 ? seqLength : options.length)
+		);
+		storeSeq(options.slice(0, seqLength > 0 ? seqLength : options.length));
+	}, [options, seqLength, seqType, storeSeq]);
 
 	// regenerate on cue if not locked and not initial
 	useEffect(() => {
@@ -70,23 +62,37 @@ export const Card = ({ eightsElapsed, count, exerciseObj }) => {
 		}
 	}, [eightsElapsed, count, practiceEights, isLocked, regenerateSequence]);
 
+	// override practiceEights if exerciseEights is set
+	useEffect(() => {
+		return masterEights ? setPracticeEights(masterEights) : null;
+	}, [masterEights]);
+
 	// ---------- HANDLERS ---------------------------------------
 	const handleBack = () => {
-		if (!storedSequences.current.length) {
+		backCounter.current = backCounter.current + 1;
+
+		if (storedSequences.current.length === backCounter.current) {
 			backCounter.current = 0;
 			return null;
 		}
 		setIsLocked(true);
 		setSequence(
 			storedSequences.current[
-				storedSequences.current.length - 2 - backCounter.current
+				storedSequences.current.length - 1 - backCounter.current < 0
+					? 0
+					: storedSequences.current.length - 1 - backCounter.current
 			]
 		);
-		backCounter.current = backCounter.current + 1;
+	};
+
+	const handleRefresh = () => {
+		backCounter.current = 0;
+		regenerateSequence();
 	};
 
 	const handleNext = () => {
 		if (!backCounter.current) {
+			handleRefresh();
 			return null;
 		}
 		setIsLocked(true);
@@ -97,66 +103,63 @@ export const Card = ({ eightsElapsed, count, exerciseObj }) => {
 			]
 		);
 	};
-	const handleRefresh = () => {
-		backCounter.current = 0;
-		regenerateSequence();
-	};
+
 	const toggleLock = () => {
 		setIsLocked(!isLocked);
 	};
+
+	const handleControls = (btnClick) => {
+		switch (btnClick) {
+			case "refresh":
+				return () => handleRefresh();
+			case "lock":
+				return () => toggleLock();
+			case "back":
+				return () => handleBack();
+			case "next":
+				return () => handleNext();
+			case "input-eights":
+				return (e) => {
+					let result = e.target.value ? parseInt(e.target.value) : 0;
+					setPracticeEights(result);
+				};
+			default:
+				return null;
+		}
+	};
+
 	const toggleControls = () => {
-		setControlIsOpen(!controlIsOpen);
+		toggleModal();
 	};
 
 	return (
-		<div className="card fc">
+		<div
+			className="card fc"
+			style={{
+				border: `1px solid var(--${category})`,
+				boxShadow: `0 0 5px var(--${category}), 0 0 7px rgba(255, 0, 0, 0.6)`,
+			}}
+		>
 			<button
 				className="card-control-button icon clickable"
 				onClick={() => toggleControls()}
 			>
 				<FontAwesomeIcon icon={faSliders} />
 			</button>
-			<div
-				className={`card-control fr ${
-					controlIsOpen ? "is-shown" : "is-hidden"
-				}`}
-			>
-				<button onClick={() => handleBack()}>
-					<FontAwesomeIcon icon={faAnglesLeft} />
-				</button>
-				<button onClick={() => handleNext()}>
-					<FontAwesomeIcon icon={faAnglesRight} />
-				</button>
-				<button onClick={() => handleRefresh()}>
-					<FontAwesomeIcon icon={faRefresh} />
-				</button>
-				<button onClick={() => toggleLock()}>
-					<FontAwesomeIcon icon={isLocked ? faLock : faLockOpen} />
-				</button>
-				<div
-					className="fr input-container"
-					id="practice-input-container"
-				>
-					<label>Change every </label>
-					<input
-						type="number"
-						id="practice-eights-input-card"
-						value={practiceEights ? practiceEights : ""}
-						onChange={(e) => {
-							let result = e.target.value
-								? parseInt(e.target.value)
-								: 0;
-							setPracticeEights(result);
-						}}
-					></input>
-					<span>eights</span>
-				</div>
-			</div>
-			<div className="category-display">
-				<h5>{`${category}:${name}`}</h5>
+			<CardControl
+				isShown={isShown}
+				isLocked={isLocked}
+				handleControls={handleControls}
+				practiceEights={practiceEights}
+			/>
+			<div className="info-display">
+				<h5>{`${name}`}</h5>
 			</div>
 			<div className="display-container">
-				<div className="seq-display">{`${sequence}`}</div>
+				<div
+					className="seq-display"
+					style={{ color: `var(--${category})` }}
+				>{`${sequence}`}</div>
 			</div>
 		</div>
 	);

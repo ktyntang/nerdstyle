@@ -13,7 +13,6 @@ import {
  * @returns New sequence of seqLength.
  */
 export const shuffleSeq = (options, seqLength) => {
-	// return arr of seqLength with shuffled options
 	let newSeq = [];
 	for (let i = 0; i < seqLength; i++) {
 		let randIndex = ~~(Math.random() * options.length);
@@ -40,7 +39,6 @@ export const pickOneInSeq = (options) => {
  * @returns New sequence of seqLength. No consecutive repeat.
  */
 export const shuffleSeqNoConsecutive = (options, seqLength) => {
-	// return arr of seqLength with shuffled options, no consecutive repeats
 	let newSeq = [];
 	while (newSeq.length < seqLength) {
 		let randIndex = ~~(Math.random() * options.length);
@@ -64,9 +62,29 @@ export const replaceSomeInSeq = (options, replacement) => {
 	const generateSeq = () => {
 		let newSeq = [];
 		for (let i = 0; i < options.length; i++) {
-			let showOpt = ~~(Math.random() * 2); // either 0 or 1
+			// let showOpt = ~~(Math.random() * 2); // either 0 or 1
+			// 16 total unique permutations possible of length 4 array with 0 or 1
+			// 4/16 (25%) chance of newSeq having 3 zeroes
+			// 6/16 (37.5%) chance of newSeq having 2 zeroes
+			// 4/16 (25%) chance of newSeq having 1 zero
+			// 1/16 (6.25%) chance of newSeq having 0 zeroes
+
+			let showOpt = ~~(Math.random() * 3); // either 0, 1, 2
+			// 81 total unique permutations possible of length 4 array with 0, 1, 2
+			// 8 / 81 (9.9%) chance of newSeq having 3 zeroes
+			// 24 / 81 (29.6%) chance of newSeq having 2 zeroes
+			// 16 / 81 (19.8%) chance of newSeq having 1 zero
+			// 32 / 81 (39.5%) chance of newSeq having 0 zeroes
+
+			// let showOpt = ~~(Math.random() * 4); // either 0, 1, 2, 3
+			// 256 total unique permutations possible of length 4 array with 0, 1, 2,3
+			// 12 / 256 (4.7%) chance of newSeq having 3 zeroes
+			// 54 / 256 (21.1%) chance of newSeq having 2 zeroes
+			// 108 / 256 (42.2%) chance of newSeq having 1 zero
+			// 81 / 256 (31.7%) chance of newSeq having 0 zeroes
 			showOpt ? newSeq.push(options[i]) : newSeq.push(replacement);
 		}
+
 		return newSeq;
 	};
 	let res = [];
@@ -114,4 +132,22 @@ export const arraysAreEqual = (a, b) => {
 				new Array(a).every((item) => b.includes(item)) &&
 				new Array(b).every((item) => a.includes(item))
 		: false;
+};
+
+/**
+ * Check if last N items of stored seq array contain result array. Do not use if arr has obj.
+ *
+ * @param   numOptions  Number of options. If less than 5, n = numOptions/2. Else n = 3.
+ * @param   a  Seq Array of Arrays
+ * @param   b  Result Array
+ * @returns Bool
+ */
+export const lastNArraysIncludes = (numOptions, a, b) => {
+	let n;
+	numOptions < 5 ? (n = Math.floor(numOptions / 2)) : (n = 3);
+	let strA = JSON.stringify(a.slice(a.length - n, a.length));
+	let strB = JSON.stringify(b);
+	let c = strA.indexOf(strB);
+
+	return c !== -1 ? true : false;
 };

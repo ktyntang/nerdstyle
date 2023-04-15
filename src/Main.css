@@ -5,8 +5,8 @@
 		". play ."
 		". cont ."
 		". setting .";
-	grid-template-columns: 2rem 8fr 2rem;
-	grid-template-rows: 1rem auto 8fr auto;
+	grid-template-columns: 2em 8fr 2em;
+	grid-template-rows: 1em auto 8fr auto;
 }
 
 .main.page .progress-container {
@@ -21,7 +21,7 @@
 	grid-area: cont;
 }
 
-.main.page .master-settings {
+.main.page .master-settings-btn {
 	grid-area: setting;
 	justify-content: right;
 }

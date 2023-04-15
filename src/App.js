@@ -7,27 +7,17 @@ import { Card } from "./components/Card";
 
 import { ProgressBar } from "./components/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faCirclePause,
-	faCirclePlay,
-	faGear,
-	faPause,
-	faPlay,
-	faPlayCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faGear, faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { Intro } from "./components/Intro";
 import { exercises } from "./utils/exercises";
 
 function App() {
 	const [oneEight, setOneEight] = useState(5); //seconds. defaults? fast 10, med 20, slow 40)
 	const [count, setCount] = useState(1);
-	const [practiceEights, setPracticeEights] = useState(2); // eights per prompt. change prompt aft _ eights.
-	const [exerciseEights, setExerciseEights] = useState(16); // eights per exercise. add new exercise aft _ eights. If 0,  enable all?
+	const [masterEights, setMasterEights] = useState(2); // eights per prompt. change prompt aft _ eights.
 	const [eightsElapsed, setEightsElapsed] = useState(0);
 	const [isPlaying, setIsPlaying] = useState(false);
 
-	// After 2 eights, exercise change prompt.
-	// After 16 eights, add new exercise.
 	let promptTimer = useRef(null);
 	let progressTimer = useRef(null);
 
@@ -49,7 +39,7 @@ function App() {
 			clearInterval(progressTimer.current);
 			progressTimer.current = null;
 		};
-	}, [oneEight, practiceEights, isPlaying, eightsElapsed, count]);
+	}, [oneEight, isPlaying, eightsElapsed, count]);
 
 	const handlePlay = () => {
 		setIsPlaying(true);
@@ -64,9 +54,9 @@ function App() {
 			case "oneEight":
 				return setOneEight(newValue);
 			case "practiceEights":
-				return setPracticeEights(newValue);
-			case "exerciseEights":
-				return setExerciseEights(newValue);
+				return setMasterEights(newValue);
+			// case "exerciseEights":
+			// 	return setExerciseEights(newValue);
 			default:
 				return null;
 		}
@@ -90,7 +80,7 @@ function App() {
 								progressBg={"whitesmoke"}
 								rangeBg={"grey"}
 								progress={count}
-								height={"1rem"}
+								height={"1em"}
 							/>
 						</section>
 
@@ -114,19 +104,22 @@ function App() {
 								eightsElapsed={eightsElapsed}
 								count={count}
 								exerciseObj={exercises[0]}
+								masterEights={masterEights}
 							/>
 							<Card
 								eightsElapsed={eightsElapsed}
 								count={count}
 								exerciseObj={exercises[1]}
+								masterEights={masterEights}
 							/>
 							<Card
 								eightsElapsed={eightsElapsed}
 								count={count}
-								exerciseObj={exercises[2]}
+								exerciseObj={exercises[4]}
+								masterEights={masterEights}
 							/>
 						</section>
-						<section className="master-settings fr">
+						<section className="master-settings-btn fr">
 							<FontAwesomeIcon
 								icon={faGear}
 								className="icon large clickable"
@@ -140,8 +133,7 @@ function App() {
 					<div className="page fc">
 						<UserInputs
 							oneEight={oneEight}
-							practiceEights={practiceEights}
-							exerciseEights={exerciseEights}
+							practiceEights={masterEights}
 							handleUserChange={handleUserChange}
 						/>
 					</div>

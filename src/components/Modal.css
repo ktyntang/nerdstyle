@@ -1,0 +1,22 @@
+.modal-overlay {
+	position: absolute;
+	height: inherit;
+	width: inherit;
+	background-color: rgba(0, 0, 0, 0.3);
+	z-index: 999;
+	border-radius: inherit;
+}
+
+.modal-overlay.show {
+	display: block;
+}
+
+.modal-overlay.hide {
+	display: none;
+}
+
+.modal-container {
+	height: inherit;
+	width: inherit;
+	z-index: 1000;
+}
