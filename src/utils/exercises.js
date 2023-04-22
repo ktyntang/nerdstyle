@@ -66,13 +66,7 @@ export const exercises = [
 		seqType: REPLACE_SOME,
 		seqLength: "_",
 	},
-	{
-		category: TEXTURE,
-		name: "Overall Texture",
-		options: ["soft", "hard", "fluid", "staccato"],
-		seqType: PICK_ONE,
-		seqLength: 1,
-	},
+
 	{
 		category: ISOLATIONS,
 		name: "Single Part Iso",

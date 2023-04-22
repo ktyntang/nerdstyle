@@ -9,7 +9,18 @@ import { ProgressBar } from "./components/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear, faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { Intro } from "./components/Intro";
-import { exercises } from "./utils/exercises";
+import { categories, exercises } from "./utils/exercises";
+import { DraggableList } from "./components/DraggableList";
+import { Accordion } from "./components/Accordion";
+
+const sortedExercises = exercises.reduce((acc, exercise) => {
+	const { category } = exercise;
+	const categoryIndex = acc.findIndex((obj) => obj.category === category);
+	categoryIndex === -1
+		? acc.push({ category, exercises: [exercise.name] })
+		: acc[categoryIndex].exercises.push(exercise.name);
+	return acc;
+}, []);
 
 function App() {
 	const [oneEight, setOneEight] = useState(5); //seconds. defaults? fast 10, med 20, slow 40)
@@ -18,6 +29,26 @@ function App() {
 	const [eightsElapsed, setEightsElapsed] = useState(0);
 	const [isPlaying, setIsPlaying] = useState(false);
 
+	const [currentSelection, setCurrentSelection] = useState([
+		exercises[0],
+		exercises[1],
+		exercises[4],
+	]);
+
+	//to get execiseObj, filter through exercises
+	// const getExercise = (selectedExercise) => {
+	// 	let result = exercises.filter((item) => {
+	// 		return (
+	// 			selectedExercise.category === item.category &&
+	// 			selectedExercise.exercises.includes(item.name)
+	// 		);
+	// 	});
+	// 	return result;
+	// };
+
+	// let selectedExercises = currentSelection
+	// 	.map((item) => getExercise(item))
+	// 	.flat();
 	let promptTimer = useRef(null);
 	let progressTimer = useRef(null);
 
@@ -50,6 +81,9 @@ function App() {
 	};
 
 	const handleUserChange = (newValue, state) => {
+		if (!newValue) {
+			newValue = 1;
+		}
 		switch (state) {
 			case "oneEight":
 				return setOneEight(newValue);
@@ -62,16 +96,25 @@ function App() {
 		}
 	};
 
+	const handleSubmitExercises = (newSelection) => {
+		setCurrentSelection(newSelection);
+	};
+
+	console.log(currentSelection);
+
 	return (
 		<div className="App ">
 			<header>
-				<h1>lil drills</h1>
+				<h1>Drills</h1>
 			</header>
 			<div className="fr">
 				<div className="page-container">
 					<div className="page fc">
 						<Intro />
 					</div>
+					{/* <div className="page fc">
+						<div className="category-selection"></div>
+					</div> */}
 				</div>
 				<div className="page-container">
 					<div className="main page">
@@ -100,7 +143,18 @@ function App() {
 							</button>
 						</section>
 						<section className="card-container fc">
-							<Card
+							{currentSelection.map((exercise, i) => {
+								return (
+									<Card
+										eightsElapsed={eightsElapsed}
+										count={count}
+										exerciseObj={exercise}
+										masterEights={masterEights}
+										key={i}
+									/>
+								);
+							})}
+							{/* <Card
 								eightsElapsed={eightsElapsed}
 								count={count}
 								exerciseObj={exercises[0]}
@@ -117,7 +171,7 @@ function App() {
 								count={count}
 								exerciseObj={exercises[4]}
 								masterEights={masterEights}
-							/>
+							/> */}
 						</section>
 						<section className="master-settings-btn fr">
 							<FontAwesomeIcon
@@ -135,6 +189,13 @@ function App() {
 							oneEight={oneEight}
 							practiceEights={masterEights}
 							handleUserChange={handleUserChange}
+						/>
+
+						{/* <DraggableList /> */}
+						<Accordion
+							sortedExercises={sortedExercises}
+							currentSelection={currentSelection}
+							handleSubmitExercises={handleSubmitExercises}
 						/>
 					</div>
 				</div>

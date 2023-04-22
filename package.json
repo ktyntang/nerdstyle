@@ -13,6 +13,7 @@
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^13.5.0",
 		"@types/three": "^0.150.1",
+		"mathjs": "^11.8.0",
 		"react": "^18.2.0",
 		"react-beautiful-dnd": "^13.1.1",
 		"react-dom": "^18.2.0",

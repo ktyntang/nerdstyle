@@ -1,12 +1,16 @@
 .card {
 	position: relative;
 	border: 1px solid purple;
-	width: 100%;
+	width: clamp(8em, 20em, 22em);
 	height: clamp(8em, 20vh, 30vh);
 	padding: 5%;
 	margin-bottom: 5%;
 	/* padding is 5%, so width is 90% of 50vw */
 	/* From https://css.glass */
+	/* overflow-x: scroll; */
+	word-break: break-word;
+	/* overflow-y: hidden; */
+
 	background: rgba(255, 255, 255, 0.2);
 	border-radius: 8px;
 	backdrop-filter: blur(6px);

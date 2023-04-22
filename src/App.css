@@ -29,7 +29,7 @@
 	background: var(--bg-color);
 	cursor: default;
 	overflow-x: scroll;
-	--BOUNCE: royalBlue;
+	--BOUNCE: dodgerblue;
 	--RHYTHM: springgreen;
 	--TEXTURE: cyan;
 	--ENERGY: orange;
@@ -171,3 +171,27 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 /* ----------------------------------------------------------- */
+
+.exercise-selection {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 100%;
+	width: 90%;
+	margin: 5%;
+	padding: 0 2.5%;
+}
+
+/* --------------------------------------------------------------- */
+::-webkit-scrollbar {
+	width: 7px;
+	height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: rgba(255, 255, 255, 0.5);
+	border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}

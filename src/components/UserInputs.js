@@ -1,3 +1,5 @@
+import { abs } from "mathjs";
+
 export const UserInputs = ({
 	oneEight,
 	practiceEights,
@@ -31,13 +33,14 @@ export const UserInputs = ({
 				<input
 					type="number"
 					id="practice-eights-input-master"
-					value={practiceEights ? practiceEights : ""}
-					onChange={(e) =>
-						handleUserChange(
-							e.target.value ? parseInt(e.target.value) : 0,
+					value={practiceEights}
+					min={1}
+					onChange={(e) => {
+						return handleUserChange(
+							e.target.value ? abs(parseInt(e.target.value)) : 1,
 							"practiceEights"
-						)
-					}
+						);
+					}}
 				></input>
 			</section>
 		</div>

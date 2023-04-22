@@ -1,0 +1,55 @@
+.accordion {
+}
+
+.accordion-title {
+	justify-content: space-between;
+}
+
+.accordion .accordion-title .icon {
+	transform: rotate(90deg);
+	transition: transform 400ms ease-in-out;
+}
+
+.accordion .accordion-title:hover .icon {
+	transform: rotate(0deg);
+}
+
+.accordion .accordion-title:focus-within .icon {
+	transform: rotate(0deg);
+}
+
+/* delay accordion reveal one by one with nth child transition */
+.accordion-content {
+	width: inherit;
+	padding: 0 5%;
+}
+
+.accordion-content .accordion-item {
+	width: 100%;
+	height: 0;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	justify-content: space-between;
+}
+
+.active.accordion-content .accordion-item {
+	animation: accordionReveal 500ms ease-in-out calc(var(--anim-delay) * 100ms)
+		forwards;
+}
+
+@keyframes accordionReveal {
+	from {
+		height: 0;
+	}
+	to {
+		height: 3em;
+	}
+}
+
+#submit-exercise-btn {
+	background-color: limegreen;
+	color: var(--font-color);
+	border-radius: 50%;
+	padding: 1em;
+}
