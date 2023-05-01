@@ -14,11 +14,13 @@
 		"@testing-library/user-event": "^13.5.0",
 		"@types/three": "^0.150.1",
 		"mathjs": "^11.8.0",
+		"music-tempo": "^1.0.3",
 		"react": "^18.2.0",
 		"react-beautiful-dnd": "^13.1.1",
 		"react-dom": "^18.2.0",
 		"react-scripts": "5.0.1",
 		"react-use-keypress": "^1.3.1",
+		"realtime-bpm-analyzer": "^3.2.0",
 		"three": "^0.151.3",
 		"web-vitals": "^2.1.4"
 	},

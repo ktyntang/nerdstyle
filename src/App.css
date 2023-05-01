@@ -43,13 +43,11 @@ header {
 	color: white;
 	font-weight: 600;
 	font-family: "Montserrat Subrayada", sans-serif;
-	background: linear-gradient(
-		180deg,
-		rgb(26, 34, 90) 0%,
-		rgba(58, 76, 194, 1) 21%,
-		rgba(154, 82, 182, 1) 63%,
-		rgb(253, 131, 221) 100%
-	);
+	background: linear-gradient(180deg,
+			rgb(26, 34, 90) 0%,
+			rgba(58, 76, 194, 1) 21%,
+			rgba(154, 82, 182, 1) 63%,
+			rgb(253, 131, 221) 100%);
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
@@ -59,9 +57,11 @@ h1 {
 	font-family: "Montserrat Subrayada", sans-serif;
 	font-style: italic;
 }
+
 h2 {
 	font-size: 2em;
 }
+
 h3 {
 	font-size: 1.5em;
 }
@@ -129,13 +129,11 @@ code {
 .gradient-display {
 	font-size: 2rem;
 	font-weight: 600;
-	background: linear-gradient(
-		180deg,
-		rgba(131, 58, 180, 1) 0%,
-		rgba(158, 52, 147, 1) 26%,
-		rgba(253, 29, 29, 1) 66%,
-		rgba(252, 176, 69, 1) 100%
-	);
+	background: linear-gradient(180deg,
+			rgba(131, 58, 180, 1) 0%,
+			rgba(158, 52, 147, 1) 26%,
+			rgba(253, 29, 29, 1) 66%,
+			rgba(252, 176, 69, 1) 100%);
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
@@ -185,4 +183,14 @@ input[type="number"]::-webkit-inner-spin-button {
 
 ::-webkit-scrollbar-thumb:hover {
 	background: #555;
+}
+
+@keyframes rotateR {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
 }

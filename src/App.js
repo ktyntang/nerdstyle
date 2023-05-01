@@ -12,6 +12,8 @@ import { Intro } from "./components/Intro";
 import { categories, exercises } from "./utils/exercises";
 import { DraggableList } from "./components/DraggableList";
 import { Accordion } from "./components/Accordion";
+import { AudioAnalyzer } from "./components/AudioAnalyzer";
+import { RTAudioAnalyzer } from "./components/RTAudioAnalyzer";
 
 const sortedExercises = exercises.reduce((acc, exercise) => {
 	const { category } = exercise;
@@ -29,11 +31,7 @@ function App() {
 	const [eightsElapsed, setEightsElapsed] = useState(0);
 	const [isPlaying, setIsPlaying] = useState(false);
 
-	const [currentSelection, setCurrentSelection] = useState([
-		exercises[0],
-		exercises[1],
-		exercises[4],
-	]);
+	const [currentSelection, setCurrentSelection] = useState([exercises[0], exercises[1], exercises[4]]);
 
 	//to get execiseObj, filter through exercises
 	// const getExercise = (selectedExercise) => {
@@ -103,46 +101,35 @@ function App() {
 	console.log(currentSelection);
 
 	return (
-		<div className="App ">
+		<div className='App '>
 			<header>
 				<h1>Drills</h1>
 			</header>
-			<div className="fr">
-				<div className="page-container">
-					<div className="page fc">
+			<div className='fr'>
+				<div className='page-container'>
+					{/* <div className="page fc">
 						<Intro />
-					</div>
+					</div> */}
 					{/* <div className="page fc">
 						<div className="category-selection"></div>
 					</div> */}
+					<div className='page fc'>
+						{/* <AudioAnalyzer /> */}
+						{/* <RTAudioAnalyzer /> */}
+					</div>
 				</div>
-				<div className="page-container">
-					<div className="main page">
-						<section className="progress-container">
-							<ProgressBar
-								progressBg={"whitesmoke"}
-								rangeBg={"grey"}
-								progress={count}
-								height={"1em"}
-							/>
+				<div className='page-container'>
+					<div className='main page'>
+						<section className='progress-container'>
+							<ProgressBar progressBg={"whitesmoke"} rangeBg={"grey"} progress={count} height={"1em"} />
 						</section>
 
-						<section
-							className="play-controls fc"
-							style={{ margin: "1.5em 0" }}
-						>
-							<button
-								onClick={() =>
-									isPlaying ? handlePause() : handlePlay()
-								}
-							>
-								<FontAwesomeIcon
-									className="icon large clickable"
-									icon={isPlaying ? faPause : faPlay}
-								/>
+						<section className='play-controls fc' style={{ margin: "1.5em 0" }}>
+							<button onClick={() => (isPlaying ? handlePause() : handlePlay())}>
+								<FontAwesomeIcon className='icon large clickable' icon={isPlaying ? faPause : faPlay} />
 							</button>
 						</section>
-						<section className="card-container fc">
+						<section className='card-container fc'>
 							{currentSelection.map((exercise, i) => {
 								return (
 									<Card
@@ -173,18 +160,18 @@ function App() {
 								masterEights={masterEights}
 							/> */}
 						</section>
-						<section className="master-settings-btn fr">
+						<section className='master-settings-btn fr'>
 							<FontAwesomeIcon
 								icon={faGear}
-								className="icon large clickable"
+								className='icon large clickable'
 								style={{ marginBottom: "1.5em" }}
 							/>
 						</section>
 					</div>
 				</div>
 
-				<div className="page-container">
-					<div className="page fc">
+				<div className='page-container'>
+					<div className='page fc'>
 						<UserInputs
 							oneEight={oneEight}
 							practiceEights={masterEights}
